@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World on Holidays - Global Travel Insights</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0a0b1e;
+            --card-bg: #1a1b2e;
+            --text-primary: #ffffff;
+            --text-secondary: #b8b9c9;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 11, 30, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 0;
+            width: 300px;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px 0 0 12px;
+            box-shadow: -5px 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+        }
+
+        .mobile-menu-links li {
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-menu-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-links a:hover {
+            color: #667eea;
+        }
+
+        .cta-btn {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: radial-gradient(ellipse at top, rgba(102, 126, 234, 0.15), transparent);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Reports Section */
+        .reports-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .report-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-gradient);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .report-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .report-badge {
+            display: inline-block;
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .report-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .report-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .read-btn {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .read-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Features Section */
+        .features {
+            background: radial-gradient(ellipse at center, rgba(102, 126, 234, 0.1), transparent);
+            padding: 6rem 2rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-gradient);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: var(--card-bg);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 2rem auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .newsletter-form button {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .newsletter-form button:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .reports-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">World on Holidays</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#explore">Explore</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <button class="menu-toggle" onclick="toggleMenu()">Menu</button>
+        </nav>
+        <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-menu-links">
+                <li><a href="#home" onclick="toggleMenu()">Home</a></li>
+                <li><a href="#hotspots" onclick="toggleMenu()">Hot Spots for Travel</a></li>
+                <li><a href="#regions" onclick="toggleMenu()">Regions</a></li>
+                <li><a href="#reports" onclick="toggleMenu()">Reports</a></li>
+                <li><a href="#stories" onclick="toggleMenu()">Stories</a></li>
+                <li><a href="#custom-reports" onclick="toggleMenu()">Custom Reports</a></li>
+                <li><a href="#blog" onclick="toggleMenu()">Blog</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">Contact Us</a></li>
+                <li><a href="#faqs" onclick="toggleMenu()">FAQs</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="hero" id="home">
+        <h1>World on Holidays</h1>
+        <p class="subtitle">The ultimate destination to track where, why, and how the world is traveling during holidays. Powered by 430+ billion data points from 300+ global brands.</p>
+        <a href="#reports" class="cta-btn">Explore Travel Insights</a>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">300+</div>
+                <div class="stat-label">Global Brands</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2.1B</div>
+                <div class="stat-label">Digital Identities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">130+</div>
+                <div class="stat-label">Countries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24B</div>
+                <div class="stat-label">Data Elements</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reports-section" id="hotspots">
+        <h2 class="section-title">🔥 Hot Spots for Travel</h2>
+        <div class="reports-grid">
+            <div class="report-card" onclick="window.location.href='#hotspot-vegas'">
+                <span class="report-badge">Coming Soon</span>
+                <h3>Couples, Friends Flock to Vegas for Super Bowl</h3>
+                <p>Major sporting events driving unprecedented travel demand to Las Vegas.</p>
+                <a href="#hotspot-vegas" class="read-btn">Read Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#hotspot-eclipse'">
+                <span class="report-badge">New Release</span>
+                <h3>10X Demand Surge for Total Solar Eclipse</h3>
+                <p>Natural phenomena creating unique travel opportunities across North America.</p>
+                <a href="#hotspot-eclipse" class="read-btn">Read Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#hotspot-thanksgiving'">
+                <span class="report-badge">Trending</span>
+                <h3>Thanksgiving Boom in Florida</h3>
+                <p>Holiday travel patterns showing strong preference for warm destinations.</p>
+                <a href="#hotspot-thanksgiving" class="read-btn">Read Report</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="reports-section" id="regions">
+        <h2 class="section-title">🌍 Regional Travel Insights</h2>
+        
+        <h3 style="font-size: 2rem; margin: 3rem 0 2rem; text-align: center; color: var(--text-primary);">Americas</h3>
+        <div class="reports-grid">
+            <div class="report-card" onclick="window.location.href='#us-summer-outbound'">
+                <span class="report-badge">New Release</span>
+                <h3>US Summer 2025 Outbound Travel Trends</h3>
+                <p>Travel Dates: June 1 - Aug 31, 2025. Long getaways gaining ground with extended vacation periods.</p>
+                <a href="#us-summer-outbound" class="read-btn">Get Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#us-summer-domestic'">
+                <span class="report-badge">New Release</span>
+                <h3>US Summer 2025 Domestic Travel Trends</h3>
+                <p>Travel Dates: June 1 - Aug 31, 2025. Boomtown bookings across major US destinations.</p>
+                <a href="#us-summer-domestic" class="read-btn">Get Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#us-spring-inbound'">
+                <span class="report-badge">Featured</span>
+                <h3>US Spring 2025 Inbound Travel Trends</h3>
+                <p>Travel Dates: March 22 - May 31, 2025. Luxury calls drive high-value international arrivals.</p>
+                <a href="#us-spring-inbound" class="read-btn">Get Report</a>
+            </div>
+        </div>
+
+        <h3 style="font-size: 2rem; margin: 3rem 0 2rem; text-align: center; color: var(--text-primary);">Europe, Middle East & Africa</h3>
+        <div class="reports-grid">
+            <div class="report-card" onclick="window.location.href='#europe-summer'">
+                <span class="report-badge">New Release</span>
+                <h3>Europe Summer 2025 Travel Trends</h3>
+                <p>Travel Dates: June 1 - Aug 31, 2025. The quiet comeback of European tourism.</p>
+                <a href="#europe-summer" class="read-btn">Get Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#europe-winter'">
+                <span class="report-badge">Featured</span>
+                <h3>Europe Winter 2024 Travel Trends</h3>
+                <p>Travel Dates: Dec 15, 2024 - Feb 28, 2025. Family time in Europe with extended stays.</p>
+                <a href="#europe-winter" class="read-btn">Get Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#mea-winter'">
+                <span class="report-badge">Trending</span>
+                <h3>Middle East & Africa Winter 2024</h3>
+                <p>Travel Dates: Dec 15, 2024 - Jan 15, 2025. The positive exchange rate effect.</p>
+                <a href="#mea-winter" class="read-btn">Get Report</a>
+            </div>
+        </div>
+
+        <h3 style="font-size: 2rem; margin: 3rem 0 2rem; text-align: center; color: var(--text-primary);">Asia Pacific</h3>
+        <div class="reports-grid">
+            <div class="report-card" onclick="window.location.href='#japan-cherry'">
+                <span class="report-badge">New Release</span>
+                <h3>Japan Cherry Blossom Season 2025</h3>
+                <p>Travel Dates: March 20 - April 30, 2025. Families' favorite spring sojourn destination.</p>
+                <a href="#japan-cherry" class="read-btn">Get Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#apac-winter'">
+                <span class="report-badge">Featured</span>
+                <h3>Asia Pacific Winter 2024 Trends</h3>
+                <p>Travel Dates: Dec 20, 2024 - Feb 15, 2025. APAC leads global travel demand.</p>
+                <a href="#apac-winter" class="read-btn">Get Report</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#china-new-year'">
+                <span class="report-badge">New Release</span>
+                <h3>Chinese New Year Travel Trends</h3>
+                <p>China relies on neighbors for New Year celebrations with regional focus.</p>
+                <a href="#china-new-year" class="read-btn">Get Report</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="reports-section" id="stories">
+        <h2 class="section-title">📖 Travel Stories</h2>
+        <div class="reports-grid">
+            <div class="report-card" onclick="window.location.href='#story-us-leisure'">
+                <span class="report-badge">Featured</span>
+                <h3>The Shift in US Leisure Travel</h3>
+                <p>Exploring changing patterns in American vacation preferences and behaviors.</p>
+                <a href="#story-us-leisure" class="read-btn">Read Story</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#story-japan-boom'">
+                <span class="report-badge">Analysis</span>
+                <h3>Overview of the 2023 Japan Travel Boom</h3>
+                <p>Deep dive into unprecedented growth in Japanese tourism.</p>
+                <a href="#story-japan-boom" class="read-btn">Read Story</a>
+            </div>
+            <div class="report-card" onclick="window.location.href='#story-europe-apac'">
+                <span class="report-badge">Insight</span>
+                <h3>Asia Welcomes Europeans This Winter</h3>
+                <p>Cross-continental travel trends revealing new patterns in European outbound travel.</p>
+                <a href="#story-europe-apac" class="read-btn">Read Story</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="about">
+        <h2 class="section-title">Why World on Holidays?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Real-Time Data</h3>
+                <p>Access insights sourced from 430+ billion data points for accurate travel intelligence.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>Global Coverage</h3>
+                <p>Track travel trends across 130+ countries with comprehensive regional analysis.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Actionable Insights</h3>
+                <p>Make informed decisions with data-backed travel trend reports and forecasts.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter" id="subscribe">
+        <h2 class="section-title">Stay Updated</h2>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem;">Get year-round travel trends delivered to your inbox. Subscribe to World on Holidays.</p>
+        <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="#hotspots">Hot Spots for Travel</a></li>
+                    <li><a href="#regions">Regions</a></li>
+                    <li><a href="#reports">Reports</a></li>
+                    <li><a href="#stories">Stories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#custom-reports">Custom Reports</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="#faqs">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/company/world-on-holidays" class="social-icon" target="_blank">in</a>
+                    <a href="https://www.instagram.com/worldonholidays" class="social-icon" target="_blank">ig</a>
+                    <a href="https://twitter.com/worldonholidays" class="social-icon" target="_blank">tw</a>
+                    <a href="https://facebook.com/worldonholidays" class="social-icon" target="_blank">fb</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 World on Holidays · Powered by Travelgain · All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function handleSubscribe(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input').value;
+            alert(`Thank you for subscribing! We'll send updates to ${email}`);
+            event.target.reset();
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.menu-toggle');
+            if (menu.classList.contains('active') && 
+                !menu.contains(e.target) && 
+                !toggle.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
